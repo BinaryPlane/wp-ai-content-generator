@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Composer (if added later)
+/vendor/
+
+# Build artifacts (if you add a build step later)
+/node_modules/
+*.zip

@@ -1,0 +1,40 @@
+/* AI Content Generator - Admin */
+
+.aicg-settings .form-table th { width: 220px; }
+.aicg-checkbox-row { display: inline-block; margin-right: 12px; }
+
+.aicg-generate-form-card {
+	max-width: 640px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px 24px;
+	margin-top: 16px;
+	border-radius: 4px;
+}
+
+.aicg-generate .aicg-form label { font-weight: 600; }
+.aicg-generate .aicg-form textarea { width: 100%; max-width: 100%; }
+.aicg-generate .aicg-form p { margin-bottom: 16px; }
+.aicg-generate .description { color: #646970; font-size: 13px; margin-top: 4px; display: block; }
+
+.aicg-progress { margin-top: 24px; padding-top: 24px; border-top: 1px solid #c3c4c7; }
+.aicg-progress-bar {
+	height: 24px;
+	background: #f0f0f1;
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 8px 0;
+}
+.aicg-progress-fill {
+	height: 100%;
+	background: #2271b1;
+	transition: width 0.2s ease;
+}
+.aicg-progress-text { margin: 4px 0; }
+.aicg-progress-status { color: #646970; font-size: 13px; }
+
+.aicg-results { margin-top: 24px; padding-top: 24px; border-top: 1px solid #c3c4c7; }
+.aicg-results ul { margin: 8px 0 0; padding-left: 20px; }
+.aicg-results li { margin-bottom: 6px; }
+.aicg-results a { text-decoration: none; }
