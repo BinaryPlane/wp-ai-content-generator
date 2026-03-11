@@ -16,23 +16,18 @@ Sites with the plugin installed receive updates from **GitHub Releases** when yo
 
 2. **Create a GitHub Release:**
    - Repo → **Releases** → **Draft a new release**
-   - **Choose a tag:** create a new tag, e.g. `v1.0.1` (must start with `v` and be semver: `v1.0.0`, `v1.2.3`).
+   - **Choose a tag:** create a new tag, e.g. `v1.0.1` (use `v` + semver: `v1.0.0`, `v1.2.3`).
    - **Release title:** e.g. `1.0.1` or `Version 1.0.1`
    - **Description:** paste your changelog (users see this in the “View details” popup when updating).
 
-3. **Attach the plugin ZIP (required for updates to work):**
-   - The ZIP must contain a **single root folder** named `ai-content-generator` with all plugin files inside it (so the path inside the zip is `ai-content-generator/ai-content-generator.php`, etc.).
-   - Create the zip from your repo root: run **PowerShell** at repo root: `.\build-release.ps1` (reads version from plugin file; or `.\build-release.ps1 1.0.1`).
-   - Upload this zip as a **Release asset** (Attach binaries / drag and drop).
-   - Name doesn’t have to be exact; the updater uses the first `.zip` asset.
+3. **No zip needed.** The plugin uses GitHub’s **Source code (zipball)** for the update. The updater’s `after_install` hook moves the extracted folder into the correct plugin path, so you do **not** need to run `build-release.ps1` or attach a custom zip. Just publish the release.
 
 4. Publish the release.
 
 ## How sites get the update
 
-- The plugin checks `https://api.github.com/repos/OWNER/REPO/releases/latest` (cached for 12 hours).
-- If the release **tag** (e.g. `v1.0.1`) is **newer** than the installed `AICG_VERSION` and the release has **at least one .zip asset**, WordPress will show an update in **Dashboard → Updates** and under **Plugins**.
-- Users click **Update** and WordPress installs the attached zip.
+- The plugin uses the same **GitHub_Plugin_Updater** pattern as BinaryPlane’s Helper Plugin: it checks `https://api.github.com/repos/BinaryPlane/wp-ai-content-generator/releases/latest`.
+- If the release **tag** (e.g. `v1.0.1`) is **newer** than the installed plugin version, WordPress shows an update. The download uses GitHub’s **zipball_url**; after install, the updater moves files into the correct plugin folder and reactivates if needed.
 
 ## If your GitHub repo is not BinaryPlane/wp-ai-content-generator
 
@@ -47,6 +42,5 @@ define( 'AICG_GITHUB_REPO', 'your-username/your-repo-name' );
 - [ ] Version bumped in `ai-content-generator.php` (header + `AICG_VERSION`)
 - [ ] `readme.txt` updated: `Stable tag`, Changelog, Upgrade Notice
 - [ ] Changes committed and pushed
-- [ ] Run `.\build-release.ps1` to create the zip (from repo root)
-- [ ] Create a new **Release** on GitHub: use tag `vX.Y.Z`, add title and description, **attach the generated .zip** as an asset
+- [ ] Create a new **Release** on GitHub: use tag `vX.Y.Z`, add title and description (no zip attachment needed)
 - [ ] Publish the release

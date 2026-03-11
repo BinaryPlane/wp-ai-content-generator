@@ -27,7 +27,7 @@
 		$resultsList.append(html);
 	}
 
-	function runNext(topic, wordCount, index, delaySec) {
+	function runNext(topic, wordCount, index, delaySec, aiProvider) {
 		if (aborted || index > total) {
 			if (total > 0) {
 				$progressStatus.text(current === total ? 'Done.' : 'Stopped.');
@@ -45,13 +45,17 @@
 			delaySec = 0;
 		}
 		delaySec = Math.min(120, delaySec);
+		if (typeof aiProvider === 'undefined' || aiProvider === null) {
+			aiProvider = $('#aicg-ai-provider').val() || '';
+		}
 		function doRequest() {
 			$progressStatus.text('Generating post ' + index + ' of ' + total + '...');
 			$.post(aicgGenerate.ajax_url, {
 				action: 'aicg_generate_post',
 				nonce: aicgGenerate.nonce,
 				topic: topic,
-				word_count: wordCount
+				word_count: wordCount,
+				ai_provider: aiProvider
 			}).done(function(res) {
 				if (res.success && res.data) {
 					addResult(res.data);
@@ -59,10 +63,10 @@
 					if (delaySec > 0 && index < total) {
 						$progressStatus.text('Waiting ' + delaySec + 's to avoid rate limit...');
 						setTimeout(function() {
-							runNext(topic, wordCount, index + 1, delaySec);
+							runNext(topic, wordCount, index + 1, delaySec, aiProvider);
 						}, delaySec * 1000);
 					} else {
-						runNext(topic, wordCount, index + 1, delaySec);
+						runNext(topic, wordCount, index + 1, delaySec, aiProvider);
 					}
 				} else {
 					$progressStatus.text('Error: ' + (res.data && res.data.message ? res.data.message : 'Unknown error'));
@@ -100,7 +104,7 @@
 		$progress.show();
 		updateProgress(0, 'Starting...');
 		$('#aicg-start').prop('disabled', true);
-		runNext(topic, wordCount, 1, delaySec);
+		runNext(topic, wordCount, 1, delaySec, $('#aicg-ai-provider').val());
 	});
 
 })(jQuery);

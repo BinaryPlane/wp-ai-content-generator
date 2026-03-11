@@ -243,19 +243,32 @@ class AICG_Admin {
 	}
 
 	public function render_generate_page() {
-		$ai = AICG_Generator::get_ai_provider();
-		$ai_ok = $ai && $ai->is_configured();
 		$word_count = (int) AICG_Settings::get( 'default_word_count', 800 );
+		$current_provider = AICG_Settings::get( 'ai_provider', 'deepseek' );
+		$deepseek_ok = ( new AICG_DeepSeek() )->is_configured();
+		$gemini_ok   = ( new AICG_Gemini() )->is_configured();
+		$ai_ok = $deepseek_ok || $gemini_ok;
+		if ( ( $current_provider === 'gemini' && ! $gemini_ok ) || ( $current_provider === 'deepseek' && ! $deepseek_ok ) ) {
+			$current_provider = $deepseek_ok ? 'deepseek' : ( $gemini_ok ? 'gemini' : $current_provider );
+		}
 		?>
 		<div class="wrap aicg-generate">
 			<h1><?php esc_html_e( 'Generate AI Posts', 'ai-content-generator' ); ?></h1>
 			<?php if ( ! $ai_ok ) : ?>
-				<div class="notice notice-error"><p><?php esc_html_e( 'Please set your AI provider API key in Settings → AI Content Generator.', 'ai-content-generator' ); ?></p></div>
+				<div class="notice notice-error"><p><?php esc_html_e( 'Please set at least one AI provider API key in Settings → AI Content Generator.', 'ai-content-generator' ); ?></p></div>
 			<?php endif; ?>
 			<p><a href="<?php echo esc_url( admin_url( 'options-general.php?page=' . self::PAGE_SLUG ) ); ?>"><?php esc_html_e( 'Settings (API keys, word count, system prompt, image sources)', 'ai-content-generator' ); ?></a></p>
 
 			<div class="aicg-generate-form-card">
 				<form id="aicg-generate-form" class="aicg-form">
+					<p>
+						<label for="aicg-ai-provider"><?php esc_html_e( 'AI provider', 'ai-content-generator' ); ?></label><br>
+						<select id="aicg-ai-provider" name="ai_provider">
+							<option value="deepseek" <?php selected( $current_provider, 'deepseek' ); ?> <?php echo $deepseek_ok ? '' : 'disabled'; ?>><?php esc_html_e( 'DeepSeek', 'ai-content-generator' ); ?><?php echo $deepseek_ok ? '' : ' (' . esc_attr__( 'API key not set', 'ai-content-generator' ) . ')'; ?></option>
+							<option value="gemini" <?php selected( $current_provider, 'gemini' ); ?> <?php echo $gemini_ok ? '' : 'disabled'; ?>><?php esc_html_e( 'Google Gemini', 'ai-content-generator' ); ?><?php echo $gemini_ok ? '' : ' (' . esc_attr__( 'API key not set', 'ai-content-generator' ) . ')'; ?></option>
+						</select>
+						<span class="description"><?php esc_html_e( 'Choose which AI to use for this run. Default comes from Settings.', 'ai-content-generator' ); ?></span>
+					</p>
 					<p>
 						<label for="aicg-topic"><?php esc_html_e( 'Content topic / description', 'ai-content-generator' ); ?></label><br>
 						<textarea id="aicg-topic" name="topic" rows="3" class="large-text" placeholder="<?php esc_attr_e( 'e.g. Tips for remote work productivity, or: Healthy breakfast ideas for busy mornings', 'ai-content-generator' ); ?>"></textarea>
@@ -305,12 +318,13 @@ class AICG_Admin {
 
 		$topic       = isset( $_POST['topic'] ) ? sanitize_textarea_field( wp_unslash( $_POST['topic'] ) ) : '';
 		$word_count  = isset( $_POST['word_count'] ) ? max( 200, min( 5000, (int) $_POST['word_count'] ) ) : (int) AICG_Settings::get( 'default_word_count', 800 );
+		$provider    = isset( $_POST['ai_provider'] ) && in_array( $_POST['ai_provider'], array( 'deepseek', 'gemini' ), true ) ? sanitize_text_field( $_POST['ai_provider'] ) : null;
 
 		if ( ! $topic ) {
 			wp_send_json_error( array( 'message' => __( 'Topic is required.', 'ai-content-generator' ) ) );
 		}
 
-		$post_id = AICG_Generator::generate_one_post( $topic, $word_count );
+		$post_id = AICG_Generator::generate_one_post( $topic, $word_count, null, $provider );
 		if ( is_wp_error( $post_id ) ) {
 			$message = $post_id->get_error_message();
 			if ( stripos( $message, 'quota' ) !== false || stripos( $message, 'rate' ) !== false ) {

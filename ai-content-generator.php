@@ -6,6 +6,7 @@
  * Version: 1.0.1
  * Author: BinaryPlane
  * Author URI: https://binaryplane.com
+ * GitHub Plugin URI: BinaryPlane/wp-ai-content-generator
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: ai-content-generator
@@ -35,12 +36,13 @@ require_once AICG_PLUGIN_DIR . 'includes/class-aicg-pexels.php';
 require_once AICG_PLUGIN_DIR . 'includes/class-aicg-pixabay.php';
 require_once AICG_PLUGIN_DIR . 'includes/class-aicg-generator.php';
 require_once AICG_PLUGIN_DIR . 'includes/class-aicg-admin.php';
-require_once AICG_PLUGIN_DIR . 'includes/class-aicg-updater.php';
+require_once AICG_PLUGIN_DIR . 'includes/class-github-plugin-updater.php';
 
 function aicg_init() {
 	load_plugin_textdomain( 'ai-content-generator', false, dirname( AICG_PLUGIN_BASENAME ) . '/languages' );
-	AICG_Updater::init();
 	if ( is_admin() ) {
+		$updater = new GitHub_Plugin_Updater( __FILE__, 'BinaryPlane', 'wp-ai-content-generator' );
+		$updater->initialize();
 		new AICG_Admin();
 	}
 }

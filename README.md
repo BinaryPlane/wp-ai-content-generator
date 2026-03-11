@@ -47,7 +47,7 @@ This plugin is structured for submission to the WordPress.org plugin directory:
 - **Repository:** https://github.com/BinaryPlane/wp-ai-content-generator
 - **Updates:** The plugin checks GitHub Releases for a newer version. See **RELEASES.md** for how to publish updates so other sites can update automatically.
 - Use the `readme.txt` **Changelog** and **Upgrade Notice** sections when releasing.
-- **Every release:** Bump version in `ai-content-generator.php` (header + `AICG_VERSION`) and in `readme.txt` (Stable tag + Changelog). Create a GitHub Release with tag `vX.Y.Z` and attach a zip of the plugin (root folder `ai-content-generator`).
+- **Every release:** Bump version in `ai-content-generator.php` (header + `AICG_VERSION`) and in `readme.txt` (Stable tag + Changelog). Create a GitHub Release with tag `vX.Y.Z` (no zip attachment needed; the updater uses GitHub’s source zipball).
 - For WordPress.org submission later, connect the repo via the plugin SVN repo's readme.
 
 ## License

@@ -12,10 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AICG_Generator {
 
 	/**
+	 * @param string|null $provider_id Optional override: 'deepseek' or 'gemini'. Default from settings.
 	 * @return AICG_AI_Provider|null
 	 */
-	public static function get_ai_provider() {
-		$id = AICG_Settings::get( 'ai_provider', 'deepseek' );
+	public static function get_ai_provider( $provider_id = null ) {
+		$id = ( $provider_id && in_array( $provider_id, array( 'deepseek', 'gemini' ), true ) )
+			? $provider_id
+			: AICG_Settings::get( 'ai_provider', 'deepseek' );
 		if ( $id === 'gemini' ) {
 			return new AICG_Gemini();
 		}
@@ -57,16 +60,17 @@ class AICG_Generator {
 	/**
 	 * Generate a single post and insert into WordPress.
 	 *
-	 * @param string $topic Content topic/description.
-	 * @param int    $word_count Target word count.
-	 * @param string $system_prompt Optional override.
+	 * @param string      $topic Content topic/description.
+	 * @param int|null    $word_count Target word count.
+	 * @param string|null $system_prompt Optional override.
+	 * @param string|null $provider_override Optional 'deepseek' or 'gemini' for this run only.
 	 * @return int|WP_Error Post ID or error.
 	 */
-	public static function generate_one_post( $topic, $word_count = null, $system_prompt = null ) {
+	public static function generate_one_post( $topic, $word_count = null, $system_prompt = null, $provider_override = null ) {
 		$word_count    = $word_count ? (int) $word_count : (int) AICG_Settings::get( 'default_word_count', 800 );
 		$system_prompt = $system_prompt ?: AICG_Settings::get( 'system_prompt', AICG_Settings::DEFAULT_SYSTEM_PROMPT );
 
-		$ai = self::get_ai_provider();
+		$ai = self::get_ai_provider( $provider_override );
 		if ( ! $ai || ! $ai->is_configured() ) {
 			return new WP_Error( 'ai_not_configured', __( 'Selected AI provider is not configured. Set API key in settings.', 'ai-content-generator' ) );
 		}
