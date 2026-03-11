@@ -104,13 +104,20 @@ class AICG_Admin {
 		?>
 		<script>
 		(function(){
-			var el = document.querySelector('.wrap .page-title-action');
-			if (el) {
-				var a = document.createElement('a');
-				a.href = <?php echo wp_json_encode( $url ); ?>;
-				a.className = 'page-title-action';
-				a.textContent = <?php echo wp_json_encode( $text ); ?>;
-				el.insertAdjacentElement('afterend', a);
+			function addButton() {
+				var el = document.querySelector('.wrap .page-title-action');
+				if (el) {
+					var a = document.createElement('a');
+					a.href = <?php echo wp_json_encode( $url ); ?>;
+					a.className = 'page-title-action';
+					a.textContent = <?php echo wp_json_encode( $text ); ?>;
+					el.insertAdjacentElement('afterend', a);
+				}
+			}
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', addButton);
+			} else {
+				addButton();
 			}
 		})();
 		</script>
