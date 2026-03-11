@@ -4,7 +4,7 @@ Donate link: https://binaryplane.com
 Tags: ai, content, blog, deepseek, gemini, auto post, bulk post, featured image, unsplash, pexels, pixabay
 Requires at least: 5.8
 Tested up to: 6.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,12 @@ No. All posts are created as drafts. You can edit and publish them when ready.
 
 == Changelog ==
 
+= 1.0.2 =
+* Fix "Generate Posts" button not appearing next to Add Post (run script after DOM ready).
+* Switch to GitHub_Plugin_Updater: updates use GitHub zipball, no custom zip or build script needed.
+* Add AI provider dropdown on Generate AI Posts page (switch between DeepSeek and Gemini per run).
+* Remove build-release.ps1 requirement from release process.
+
 = 1.0.1 =
 * Add "Generate Posts" button next to "Add New" on the Posts list screen.
 * GitHub-based update checker for updates from BinaryPlane/wp-ai-content-generator releases.
@@ -80,6 +86,9 @@ No. All posts are created as drafts. You can edit and publish them when ready.
 * Auto categories and featured images from Unsplash, Pexels, Pixabay.
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Fixes Generate Posts button on Posts list; AI provider can be chosen on Generate page; simpler GitHub updates (no zip upload).
 
 = 1.0.1 =
 Adds "Generate Posts" button next to Add New, GitHub updates, randomize date option, and rate-limit controls.
