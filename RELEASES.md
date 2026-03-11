@@ -47,5 +47,6 @@ define( 'AICG_GITHUB_REPO', 'your-username/your-repo-name' );
 - [ ] Version bumped in `ai-content-generator.php` (header + `AICG_VERSION`)
 - [ ] `readme.txt` updated: `Stable tag`, Changelog, Upgrade Notice
 - [ ] Changes committed and pushed
-- [ ] New release on GitHub with tag `vX.Y.Z`
-- [ ] Plugin zip (folder `ai-content-generator` at root) attached to the release
+- [ ] Run `.\build-release.ps1` to create the zip (from repo root)
+- [ ] Create a new **Release** on GitHub: use tag `vX.Y.Z`, add title and description, **attach the generated .zip** as an asset
+- [ ] Publish the release
