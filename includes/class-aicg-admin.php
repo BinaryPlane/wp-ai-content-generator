@@ -19,6 +19,7 @@ class AICG_Admin {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_aicg_generate_post', array( $this, 'ajax_generate_post' ) );
+		add_action( 'admin_head-edit.php', array( $this, 'add_generate_posts_button' ) );
 	}
 
 	public function add_menus() {
@@ -88,6 +89,32 @@ class AICG_Admin {
 				'delay_seconds'  => max( 0, min( 120, (int) AICG_Settings::get( 'batch_delay_seconds', 0 ) ) ),
 			) );
 		}
+	}
+
+	/**
+	 * Add "Generate Posts" button next to "Add New" on the Posts list screen.
+	 */
+	public function add_generate_posts_button() {
+		$screen = get_current_screen();
+		if ( ! $screen || $screen->post_type !== 'post' || ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
+		$url = admin_url( 'edit.php?page=' . self::PAGE_GEN );
+		$text = __( 'Generate Posts', 'ai-content-generator' );
+		?>
+		<script>
+		(function(){
+			var el = document.querySelector('.wrap .page-title-action');
+			if (el) {
+				var a = document.createElement('a');
+				a.href = <?php echo wp_json_encode( $url ); ?>;
+				a.className = 'page-title-action';
+				a.textContent = <?php echo wp_json_encode( $text ); ?>;
+				el.insertAdjacentElement('afterend', a);
+			}
+		})();
+		</script>
+		<?php
 	}
 
 	public function render_settings_page() {

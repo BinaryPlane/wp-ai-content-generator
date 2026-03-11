@@ -3,7 +3,7 @@
  * Plugin Name: AI Content Generator
  * Plugin URI: https://binaryplane.com/ai-content-generator
  * Description: Mass-generate blog posts using AI (DeepSeek, Gemini) with automatic categories and featured images from free stock photo sources.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: BinaryPlane
  * Author URI: https://binaryplane.com
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AICG_VERSION', '1.0.0' );
+define( 'AICG_VERSION', '1.0.1' );
 define( 'AICG_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AICG_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AICG_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

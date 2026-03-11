@@ -4,7 +4,7 @@ Donate link: https://binaryplane.com
 Tags: ai, content, blog, deepseek, gemini, auto post, bulk post, featured image, unsplash, pexels, pixabay
 Requires at least: 5.8
 Tested up to: 6.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,14 @@ No. All posts are created as drafts. You can edit and publish them when ready.
 
 == Changelog ==
 
+= 1.0.1 =
+* Add "Generate Posts" button next to "Add New" on the Posts list screen.
+* GitHub-based update checker for updates from BinaryPlane/wp-ai-content-generator releases.
+* Randomize post date option (optional, disabled by default).
+* Delay between posts (rate limiting) configurable on Settings and on the Generate page.
+* Configurable Gemini model (2.5 Flash Lite, 2.5 Flash, 2.5 Pro, 3.x previews).
+* Build script (build-release.ps1) for creating release zips.
+
 = 1.0.0 =
 * Initial release.
 * DeepSeek and Google Gemini support.
@@ -72,6 +80,9 @@ No. All posts are created as drafts. You can edit and publish them when ready.
 * Auto categories and featured images from Unsplash, Pexels, Pixabay.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Adds "Generate Posts" button next to Add New, GitHub updates, randomize date option, and rate-limit controls.
 
 = 1.0.0 =
 Initial release of AI Content Generator.
