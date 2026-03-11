@@ -22,10 +22,7 @@ Sites with the plugin installed receive updates from **GitHub Releases** when yo
 
 3. **Attach the plugin ZIP (required for updates to work):**
    - The ZIP must contain a **single root folder** named `ai-content-generator` with all plugin files inside it (so the path inside the zip is `ai-content-generator/ai-content-generator.php`, etc.).
-   - Create the zip from your repo root, e.g.:
-     - **Windows:** zip the `ai-content-generator` folder so the archive has one top-level entry `ai-content-generator/`.
-     - **Linux/macOS:**  
-       `cd /path/to/repo && zip -r ai-content-generator-1.0.1.zip ai-content-generator`
+   - Create the zip from your repo root: run **PowerShell** at repo root: `.\build-release.ps1` (reads version from plugin file; or `.\build-release.ps1 1.0.1`).
    - Upload this zip as a **Release asset** (Attach binaries / drag and drop).
    - Name doesn’t have to be exact; the updater uses the first `.zip` asset.
 
